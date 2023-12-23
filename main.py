@@ -14,3 +14,14 @@
 # import pyttsx3
 
 ###
+
+## código de partida
+# Inicializar o reconhecimento de voz
+
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+recognizer = sr.Recognizer()
+
+# Inicializar o mecanismo de síntese de fala
+engine = pyttsx3.init()
+nlp = spacy.load("en_core_web_sm")
