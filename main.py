@@ -12,7 +12,7 @@
 # import spacy
 # from transformers import pipeline
 # import pyttsx3
-
+#from rasa.nlu.model import Interpreter
 ###
 
 ## código de partida
@@ -21,6 +21,9 @@
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 recognizer = sr.Recognizer()
+
+# Inicializar o interpretador Rasa NLU
+interpreter = Interpreter.load("path/to/nlu/model")
 
 # Inicializar o mecanismo de síntese de fala
 engine = pyttsx3.init()
@@ -67,23 +70,25 @@ def create_and_improve_text(input_text):
     improved_text = input_text  # Neste exemplo, o texto não é alterado
     return improved_text
 
+def process_command(command):
+    response = interpreter.parse(command)
+    return response["intent"]["name"], response["entities"]
+
 # Exemplo de uso
 while True:
-    command = input("Digite um comando: ")
+    user_command = recognize_speech()
+    print("Comando do usuário:", user_command)
 
-    doc = nlp(command)
-    if "code" in command:
-        code = input("Digite o código que deseja verificar e corrigir: ")
-        result = check_and_correct_code(code)
-        print(result)
-    elif "fale" in command:
-        recognized_text = recognize_speech()
-    elif "text" in command:
-        input_text = input("Digite o texto que deseja criar e melhorar: ")
-        improved_text = create_and_improve_text(input_text)
-        print("Texto melhorado:", improved_text)
-    elif "sintetize" in command:
-        text = input("Digite o texto que deseja sintetizar: ")
-        text_to_speech(text)
-    elif command == "sair":
-        break
+    intent, entities = process_command(user_command)
+
+    if intent == "cumprimento":
+        response = "Olá! Como posso ajudar você?"
+    elif intent == "clima":
+        response = "Desculpe, eu não tenho acesso à previsão do tempo no momento."
+    else:
+        response = "Desculpe, não entendi. Pode repetir?"
+
+    print("Resposta do Chatbot:", response)
+    # Sintetizar a resposta do Chatbot
+    engine.say(response)
+    engine.runAndWait()
