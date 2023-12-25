@@ -6,14 +6,15 @@
 # pip install transformers
 # pip install pyttsx3
 
+
 ## importações
 # import speech_recognition as sr
 # import pyaudio
 # import spacy
 # from transformers import pipeline
 # import pyttsx3
-#from rasa.nlu.model import Interpreter
-###
+#from rasa.nlu import Interpreter
+#import ast
 
 ## código de partida
 # Inicializar o reconhecimento de voz
@@ -44,7 +45,31 @@ def recognize_speech():
     except sr.RequestError as e:
         print(f"Erro no reconhecimento de fala: {e}")
 
-def check_and_correct_code(code):
+def check_and_correct_code_with_rasa(code):
+    # Enviar a consulta para o modelo Rasa NLU
+    response = interpreter.parse(code)
+    
+    # Verificar a intenção identificada pelo modelo
+    intent = response["intent"]["name"]
+
+    if intent == "verificar_codigo":
+        # Extrair a entidade relacionada ao código
+        code_entity = next((entity for entity in response["entities"] if entity["entity"] == "code"), None)
+
+        if code_entity:
+            # Verificar e corrigir o código
+            code_to_check = code_entity["value"]
+            try:
+                parsed_code = ast.parse(code_to_check)
+                return "O código está correto."
+            except SyntaxError as e:
+                return f"Erro de sintaxe no código: {e}"
+            except Exception as e:
+                return f"Erro ao analisar o código: {e}"
+        else:
+            return "Não foi possível identificar o código a ser verificado."
+    else:
+        return "Não foi possível entender a intenção relacionada à verificação de código."
     try:
         # Tenta analisar o código
         parsed_code = ast.parse(code)
@@ -85,10 +110,27 @@ while True:
         response = "Olá! Como posso ajudar você?"
     elif intent == "clima":
         response = "Desculpe, eu não tenho acesso à previsão do tempo no momento."
+    elif intent == "verificar_codigo":
+        # Extrair a entidade relacionada ao código
+        code_entity = next((entity for entity in entities if entity["entity"] == "code"), None)
+
+        if code_entity:
+            # Verificar e corrigir o código usando a função específica
+            response = check_and_correct_code_with_rasa(code_entity["value"])
+        else:
+            response = "Não foi possível identificar o código a ser verificado."
+    elif intent == "melhorar_texto":
+        # Extrair a entidade relacionada ao texto
+        text_entity = next((entity for entity in entities if entity["entity"] == "text"), None)
+
+        if text_entity:
+            # Melhorar o texto usando a função específica
+            response = create_and_improve_text(text_entity["value"])
+        else:
+            response = "Não foi possível identificar o texto a ser melhorado."
     else:
         response = "Desculpe, não entendi. Pode repetir?"
 
     print("Resposta do Chatbot:", response)
     # Sintetizar a resposta do Chatbot
-    engine.say(response)
-    engine.runAndWait()
+    text_to_speech(response)
