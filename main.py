@@ -45,6 +45,17 @@ def recognize_speech():
     except sr.RequestError as e:
         print(f"Erro no reconhecimento de fala: {e}")
 
+# Função para análise gramatical usando NLTK
+def analyze_text(text):
+    tokens = word_tokenize(text)
+    tagged_tokens = nltk.pos_tag(tokens)
+    return tagged_tokens
+
+# Função para síntese de fala
+def text_to_speech(text):
+    engine.say(text)
+    engine.runAndWait()
+
 def check_and_correct_code_with_rasa(code):
     # Enviar a consulta para o modelo Rasa NLU
     response = interpreter.parse(code)
@@ -70,25 +81,6 @@ def check_and_correct_code_with_rasa(code):
             return "Não foi possível identificar o código a ser verificado."
     else:
         return "Não foi possível entender a intenção relacionada à verificação de código."
-    try:
-        # Tenta analisar o código
-        parsed_code = ast.parse(code)
-        return "O código está correto."
-    except SyntaxError as e:
-        return f"Erro de sintaxe: {e}"
-    except Exception as e:
-        return f"Erro: {e}"
-
-# Função para análise gramatical usando NLTK
-def analyze_text(text):
-    tokens = word_tokenize(text)
-    tagged_tokens = nltk.pos_tag(tokens)
-    return tagged_tokens
-
-# Função para síntese de fala
-def text_to_speech(text):
-    engine.say(text)
-    engine.runAndWait()
 
 def create_and_improve_text(input_text):
     # Implemente aqui as melhorias desejadas no texto
