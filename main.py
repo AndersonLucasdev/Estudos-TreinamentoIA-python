@@ -1,20 +1,18 @@
 ## instalações
-# pip install SpeechRecognition PyAudio
-# pip install PyAudio
-# pip install spacy
-# python -m spacy download en_core_web_sm  # Modelo para inglês
-# pip install transformers
-# pip install pyttsx3
-
+# pip install SpeechRecognition pyaudio spacy transformers pyttsx3 --user
+# python -m pip install --user nltk
+# python -m pip install --user rasa --upgrade --no-deps
 
 ## importações
-# import speech_recognition as sr
-# import pyaudio
-# import spacy
-# from transformers import pipeline
-# import pyttsx3
-#from rasa.nlu import Interpreter
-#import ast
+import nltk
+from nltk.tokenize import word_tokenize 
+import speech_recognition as sr
+import pyaudio
+import spacy
+from transformers import pipeline
+import pyttsx3
+from rasa.nlu import Interpreter
+import ast
 
 ## código de partida
 # Inicializar o reconhecimento de voz
