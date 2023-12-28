@@ -1,0 +1,10 @@
+- if x > 0:  # verifique o código para erros.
+- class MyClass:  # verifique o código para erros.
+- def my_function():  # examine meu código em busca de problemas.
+- def my_function():  # há algum erro no meu código?
+- if x > 0:  # examine meu código em busca de problemas.
+- def my_function():  # verifique o código para erros.
+- while condition:  # verifique o código para erros.
+- class MyClass:  # há algum erro no meu código?
+- class MyClass:  # examine meu código em busca de problemas.
+- while condition:  # há algum erro no meu código?

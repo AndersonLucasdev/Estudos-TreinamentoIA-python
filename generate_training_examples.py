@@ -14,7 +14,7 @@ code_actions = [
     "há algum erro no meu código?",
 ]
 
-num_examples = 100
+num_examples = 10
 
 generated_examples = []
 while len(generated_examples) < num_examples:
