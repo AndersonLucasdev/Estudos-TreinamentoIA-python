@@ -2,6 +2,7 @@
 # pip install SpeechRecognition pyaudio spacy transformers pyttsx3 --user
 # python -m pip install --user nltk
 # python -m pip install --user rasa --upgrade --no-deps
+# pip install ruamel.yaml
 
 ## importações
 import nltk
