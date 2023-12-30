@@ -4,6 +4,7 @@
 # python -m pip install --user rasa --upgrade --no-deps
 # pip install ruamel.yaml
 
+
 ## importações
 import nltk
 from nltk.tokenize import word_tokenize 
