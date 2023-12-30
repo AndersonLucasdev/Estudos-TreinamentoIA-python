@@ -3,9 +3,12 @@
 # python -m pip install --user nltk
 # python -m pip install --user rasa --upgrade --no-deps
 # pip install ruamel.yaml
-
+# pip install sanic
+# pip install websockets==10.0
+# pip install sanic==21.9.3
 
 ## importações
+import rasa
 import nltk
 from nltk.tokenize import word_tokenize 
 import speech_recognition as sr
@@ -13,7 +16,7 @@ import pyaudio
 import spacy
 from transformers import pipeline
 import pyttsx3
-from rasa.nlu import Interpreter
+from rasa.shared.nlu.interpreter import Interpreter
 import ast
 
 ## código de partida
