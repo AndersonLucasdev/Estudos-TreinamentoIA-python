@@ -16,7 +16,7 @@ import pyaudio
 import spacy
 from transformers import pipeline
 import pyttsx3
-from rasa.nlu import Interpreter
+from rasa.shared.nlu.interpreter import Interpreter
 import ast
 
 ## código de partida
